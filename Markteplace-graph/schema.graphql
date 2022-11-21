@@ -1,0 +1,44 @@
+type Token @entity(immutable: false) {
+  id: ID!
+  tokenId: BigInt! #uint256
+  owner: User! # User
+  collection: Collection! 
+  listing: Listing @derivedFrom(field: "token")
+  offers: [Offer!]! @derivedFrom(field: "token")
+  approved: Boolean!
+  uri: String!
+}
+
+type User @entity(immutable: false) {
+  id: ID!
+  userAddress: Bytes! # address
+  funds: BigInt! # uint256
+  collections: [Collection!]! @derivedFrom(field: "creator")
+  tokens: [Token!]! @derivedFrom(field: "owner")
+  offers: [Offer!]! @derivedFrom(field: "offerer")
+}
+
+type Collection @entity(immutable: false) {
+  id: ID!
+  collectionAddress: Bytes! # address
+  collectionName: String
+  collectionSymbol: String
+  creator: User! # User
+  tokens: [Token!]! @derivedFrom(field: "collection")
+}
+
+type Offer @entity(immutable: false) {
+  id: ID!
+  token: Token! # uint256
+  collection: Collection! # address
+  price: BigInt! # uint256
+  offerer: User!
+  active: Boolean!
+}
+
+type Listing @entity(immutable: true) {
+  id: ID!
+  token: Token! 
+  collection: Collection!
+  price: BigInt! 
+}

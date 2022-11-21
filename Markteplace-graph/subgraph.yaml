@@ -1,0 +1,51 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: MarketPlace
+    network: goerli
+    source:
+      address: "0x64cFA678B1f21Fc797cE9F1BD05A4f97C73d27eB"
+      abi: MarketPlace
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Token
+        - User
+        - Collection
+        - Offer
+        - Listing
+      abis:
+        - name: MarketPlace
+          file: ./abis/MarketPlace.json
+      eventHandlers:
+        - event: CollectionCreated(string,string,address,address)
+          handler: handleCollectionCreated
+        - event: DepositOfFunds(indexed address,uint256)
+          handler: handleDepositOfFunds
+        - event: ItemCreated(indexed uint256,indexed address,indexed address,string)
+          handler: handleItemCreated
+        - event: ItemListedForSale(indexed uint256,indexed address,uint256)
+          handler: handleItemListedForSale
+        - event: ItemWithdrawnFromSale(indexed uint256,indexed address)
+          handler: handleItemWithdrawnFromSale
+        - event: MarketplaceApprovedForToken(indexed uint256,indexed address)
+          handler: handleMarketplaceApprovedForToken
+        - event: MarketplacePermissionsRevoked(indexed uint256,indexed address)
+          handler: handleMarketplacePermissionsRevoked
+        - event: OfferMade(indexed uint256,indexed address,indexed address,uint256)
+          handler: handleOfferMade
+        - event: OfferRejected(indexed uint256,indexed address,indexed address)
+          handler: handleOfferRejected
+        - event: OfferWithdrawn(indexed uint256,indexed address,indexed address)
+          handler: handleOfferWithdrawn
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: TradeConfirmed(indexed uint256,indexed address,address,indexed address,uint256)
+          handler: handleTradeConfirmed
+        - event: WithdrawalOfFunds(indexed address,uint256)
+          handler: handleWithdrawalOfFunds
+      file: ./src/market-place.ts
