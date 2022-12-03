@@ -1,0 +1,1 @@
+https://api.studio.thegraph.com/query/37975/marketplace-graph/0.1

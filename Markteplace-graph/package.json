@@ -1,13 +1,13 @@
 {
-  "name": "Marketplace",
+  "name": "marketplace-graph",
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ Marketplace",
-    "create-local": "graph create --node http://localhost:8020/ Marketplace",
-    "remove-local": "graph remove --node http://localhost:8020/ Marketplace",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 Marketplace",
+    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ marketplace-graph",
+    "create-local": "graph create --node http://localhost:8020/ marketplace-graph",
+    "remove-local": "graph remove --node http://localhost:8020/ marketplace-graph",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 marketplace-graph",
     "test": "graph test"
   },
   "dependencies": {
