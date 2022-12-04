@@ -29,16 +29,16 @@ type Collection @entity(immutable: false) {
 
 type Offer @entity(immutable: false) {
   id: ID!
-  token: Token! # uint256
+  token: Token # uint256
   collection: Collection! # address
   price: BigInt! # uint256
   offerer: User!
   active: Boolean!
 }
 
-type Listing @entity(immutable: true) {
+type Listing @entity(immutable: false) {
   id: ID!
-  token: Token! 
+  token: Token 
   collection: Collection!
   price: BigInt! 
 }

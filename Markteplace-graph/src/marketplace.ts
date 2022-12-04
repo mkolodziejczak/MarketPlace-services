@@ -73,7 +73,8 @@ export function handleItemCreated(event: ItemCreatedEvent): void {
 export function handleItemListedForSale(event: ItemListedForSaleEvent): void {
   let item = Token.load(event.params.tokenId.toString() + "#" + event.params.colectionAddress.toHexString());
   
-  let listing = new Listing(event.params.tokenId.toString() + "#" + event.params.colectionAddress.toHexString());
+  let listing = new Listing("sale#" + event.params.tokenId.toString() + "#" + event.params.colectionAddress.toHexString());
+  listing.collection = event.params.colectionAddress.toHexString();
   listing.token = item!.id;
   listing.price = event.params.price;
   listing.save()
@@ -82,8 +83,13 @@ export function handleItemListedForSale(event: ItemListedForSaleEvent): void {
 export function handleItemWithdrawnFromSale(
   event: ItemWithdrawnFromSaleEvent
 ): void {
-  let listing = Listing.load(event.params.tokenId.toString() + "#" + event.params.colectionAddress.toHexString());
-  store.remove('Listing', listing!.id);
+  let item = new Token(event.params.tokenId.toString() + "#" + event.params.colectionAddress.toHexString());
+  item.listing = null;
+  item.save();
+  let listing = Listing.load("sale#" + event.params.tokenId.toString() + "#" + event.params.colectionAddress.toHexString());
+  listing!.token = null;
+  listing!.save();
+  //store.remove('Listing', listing!.id);
 }
 
 export function handleMarketplaceApprovedForToken(
@@ -129,7 +135,10 @@ export function handleOfferRejected(event: OfferRejectedEvent): void {
 }
 
 export function handleOfferWithdrawn(event: OfferWithdrawnEvent): void {
+  let item = Token.load(event.params.tokenId.toString() + "#" + event.params.collectionAddress.toHexString());
   let offer = Offer.load(event.params.tokenId.toString() + "#" + event.params.collectionAddress.toHexString() + "#" + event.params.offerer.toHexString());
+
+
   store.remove('Offer', offer!.id);
 }
 
@@ -152,10 +161,9 @@ export function handleTradeConfirmed(event: TradeConfirmedEvent): void {
   item!.approved = false;
   item!.owner = toUser.id;
 
-  let listing = Listing.load(event.params.tokenId.toString() + "#" + event.params.collecionAddress.toHexString());
+  let listing = Listing.load("sale#" + event.params.tokenId.toString() + "#" + event.params.collecionAddress.toHexString());
   
   if (listing) {
-    item!.listing = null;
     store.remove('Listing', listing!.id);
   }
 
@@ -164,8 +172,6 @@ export function handleTradeConfirmed(event: TradeConfirmedEvent): void {
   if (offer) {
     store.remove('Offer', offer!.id);
   }
-
-  item!.save();
 }
 
 export function handleWithdrawalOfFunds(event: WithdrawalOfFundsEvent): void {
