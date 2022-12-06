@@ -87,9 +87,7 @@ export function handleItemWithdrawnFromSale(
   item.listing = null;
   item.save();
   let listing = Listing.load("sale#" + event.params.tokenId.toString() + "#" + event.params.colectionAddress.toHexString());
-  listing!.token = null;
-  listing!.save();
-  //store.remove('Listing', listing!.id);
+  store.remove('Listing', listing!.id);
 }
 
 export function handleMarketplaceApprovedForToken(
