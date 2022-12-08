@@ -158,7 +158,8 @@ export function handleTradeConfirmed(event: TradeConfirmedEvent): void {
 
   item!.approved = false;
   item!.owner = toUser.id;
-
+  item!.save();
+  
   let listing = Listing.load("sale#" + event.params.tokenId.toString() + "#" + event.params.collecionAddress.toHexString());
   
   if (listing) {
